@@ -27,7 +27,7 @@ int main(){
 
 		file = fopen("./passwd","r");
 		while(fgets(readLine,100,file) != NULL){
-			printf("%s",readLine);
+//			printf("%s",readLine);
 			strtok(user,"\n");
 			user_x = strtok(readLine,":");
 			pass_x = strtok(NULL,":");
