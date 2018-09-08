@@ -21,8 +21,8 @@ int main(int argc, char const *argv[]) {
 
 
         gettimeofday(&end, NULL);
-        printf("%1.48lf\n", result );
-        printf("Total execution time: %li.%06u\n", end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec );
+        printf("Leibniz result: %1.48lf\n", result/4 );
+        printf("Total execution time: %li.%li\n", end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec );
 
         return 0;
 }
