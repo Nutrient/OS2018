@@ -16,19 +16,21 @@
 double result[NTHREADS];
 
 int tfunc( void *args){
-
   int nthread=*((int *) args);
   int iStart = (nthread) * (ITERATIONS/NTHREADS);
   int iEnd = (nthread+1) * (ITERATIONS/NTHREADS);
-  printf("NTHREAD = %i | result Address = %p\n", nthread, &result[nthread]);
+  //printf("NTHREAD = %i | result Address = %p\n", nthread, &result[nthread]);
   for (; iStart < iEnd; iStart++) {
       result[nthread] += pow(-1.0,iStart) / ((2*iStart) + 1);
+      
+      
   }
-  printf("%lf\n",result[nthread]);
+  printf("%1.48lf\n",result[nthread]);
   return 0;
 }
 
 int main(int argc, char const *argv[]) {
+
 	struct timeval start;
         struct timeval end;
         int parArr[NTHREADS];
@@ -36,25 +38,28 @@ int main(int argc, char const *argv[]) {
 	pid_t pidStack[NTHREADS];
         double fResult = 0;
         pthread_t tid[NTHREADS];
-	void *stack = malloc(FIBER_STACK);
+	void *stack = malloc(FIBER_STACK * NTHREADS);
 
         printf("PI/4 value in math.h: %1.48lf\n",M_PI/4 );
         gettimeofday(&start, NULL);
 	
 	
-        for(int i = 0; i < NTHREADS; i++){
-          parArr[i]=i;
-	  pidStack[i] = clone(&tfunc, (char *) stack + FIBER_STACK, SIGCHLD | CLONE_VM, (void *) &parArr[i] );
-          pid_t pid = waitpid(pidStack[i],&status, 0);
+        for(int i = 1; i <= NTHREADS; i++){
+          parArr[i]=i-1;
+	  pidStack[i] = clone(&tfunc, (char *) stack + (FIBER_STACK*i), SIGCHLD | CLONE_VM, (void *) &parArr[i] );
+          //pid_t pid = waitpid(pidStack[i],&status, 0);
         }
 	
-	/*for(int i = 0; i < NTHREADS; i++){
-          pid_t pid = waitpid(pidStack[i],&status, 0);
-        }*/
+	
+	for(int i = 0; i < NTHREADS; i++){
+          //pidStack[i] = waitpid(pidStack[i],&status, 0);
+	  pidStack[i] = wait(&status);
+        }
 
 	gettimeofday(&end, NULL);
 	free(stack);
 	for (int i = 0; i < NTHREADS; i++) {
+	  printf("result[%i] = %1.48lf\n",i, result[i]);
           fResult += result[i];
         }
 
