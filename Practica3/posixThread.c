@@ -50,7 +50,7 @@ int main(int argc, char const *argv[]) {
           fResult += result[i];
         }
 
-        printf("Leibniz result: %1.48lf\n", fResult/4 );
+        printf("Leibniz result: %1.48lf\n", fResult );
         printf("Total execution time: %li\n", end.tv_sec - start.tv_sec);
 
 
