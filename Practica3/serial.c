@@ -16,7 +16,7 @@ int main(int argc, char const *argv[]) {
         gettimeofday(&start, NULL);
 
         for (int i = 0; i < 2000000000; i++) {
-            result += pow(-1.0,i) / ((2*i) + 1);
+                result += pow(-1.0,i) / ((2*i) + 1);
         }
 
 
