@@ -12,15 +12,15 @@
 double result[NTHREADS];
 
 void *tfunc( void *args){
-  
-  int nthread=*((int *) args);
-  int iStart = (nthread) * (ITERATIONS/NTHREADS);
-  int iEnd = (nthread+1) * (ITERATIONS/NTHREADS);
-	
-  for (; iStart < iEnd; iStart++) {
-      result[nthread] += pow(-1.0,iStart) / ((2*iStart) + 1);
-  }
-  
+
+        int nthread=*((int *) args);
+        int iStart = (nthread) * (ITERATIONS/NTHREADS);
+        int iEnd = (nthread+1) * (ITERATIONS/NTHREADS);
+
+        for (; iStart < iEnd; iStart++) {
+                result[nthread] += pow(-1.0,iStart) / ((2*iStart) + 1);
+        }
+
 }
 
 int main(int argc, char const *argv[]) {
@@ -35,19 +35,19 @@ int main(int argc, char const *argv[]) {
         gettimeofday(&start, NULL);
 
 
-        for(int i = 0; i < NTHREADS; i++){
-          parArr[i]=i;
-          pthread_create(&tid[i],NULL,tfunc,(void *) &parArr[i]);
+        for(int i = 0; i < NTHREADS; i++) {
+                parArr[i]=i;
+                pthread_create(&tid[i],NULL,tfunc,(void *) &parArr[i]);
         }
 
         for(int i = 0; i < NTHREADS; i++)
-          pthread_join(tid[i],NULL);
+                pthread_join(tid[i],NULL);
 
         gettimeofday(&end, NULL);
 
 
         for (int i = 0; i < NTHREADS; i++) {
-          fResult += result[i];
+                fResult += result[i];
         }
 
         printf("Leibniz result: %1.48lf\n", fResult );
